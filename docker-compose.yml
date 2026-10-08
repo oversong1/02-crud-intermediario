@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: crudint_db
+    environment:
+      POSTGRES_DB: loja
+      POSTGRES_USER: loja
+      POSTGRES_PASSWORD: loja
+    ports:
+      - "5441:5432"
+    volumes:
+      - crudint_db_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:4
+    container_name: crudint_adminer
+    ports:
+      - "8089:8080"
+    depends_on:
+      - db
+
+  php:
+    build: ./docker/php
+    container_name: crudint_php
+    ports:
+      - "8097:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  crudint_db_data:
