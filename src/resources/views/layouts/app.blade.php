@@ -9,7 +9,8 @@
 <body>
     <header>
         {{-- Continua apontando pra '/' por enquanto - ajustamos na Fase 4 --}}
-        <a href="/">Loja de Roupas</a>
+        {{-- <a href="/">Loja de Roupas</a> --}}
+        <a href="{{ route('produtos.index') }}">Loja de Roupas</a>
 
         {{-- @auth / @guest: diretivas do Blade que conferem Auth::check() sozinhas --}}
         @auth

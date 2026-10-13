@@ -36,7 +36,9 @@ class AuthController extends Controller
 
         // Ainda nao existe a rota 'produtos.index' (so vem na Fase 4) - por enquanto,
         // redireciona pra raiz. Vamos trocar isso quando a rota existir.
-        return redirect('/')->with('sucesso', 'Conta criada!');
+        // return redirect('/')->with('sucesso', 'Conta criada!');
+
+        return redirect()->route('produtos.index')->with('sucesso', 'Conta criada!');
     }
 
     // GET /login - mostra o formulario
@@ -62,7 +64,9 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Mesma situacao do registrar() acima - ajustamos pra 'produtos.index' na Fase 4.
-            return redirect('/');
+            // return redirect('/');
+
+            return redirect()->route('produtos.index');
         }
 
         // back(): volta pra pagina anterior (o formulario), preservando a URL

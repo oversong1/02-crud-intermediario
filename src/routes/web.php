@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\CategoriaController;
 
 // Importa a classe, pra poder escrever so AuthController::class abaixo,
 // em vez do caminho completo App\Http\Controllers\AuthController::class.
@@ -30,3 +32,15 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 // So POST porque sair e uma ACAO (muda o estado da sessao) - nunca deveria responder
 // a um GET (um link clicado sem querer nao deveria deslogar ninguem).
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// middleware('auth')->group(...): TUDO que estiver dentro desta funcao so responde
+// se tiver alguem logado - sem precisar repetir isso em cada rota, uma por uma.
+Route::middleware('auth')->group(function () {
+    // Route::resource: cria as 7 rotas padrao (index/create/store/show/edit/update/destroy)
+    // de uma vez, todas ja ligadas aos metodos do ProdutoController.
+    Route::resource('produtos', ProdutoController::class);
+
+    // ->only([...]): cria SO essas 4 rotas (o CategoriaController nao tem edit/update/show)
+    Route::resource('categorias', CategoriaController::class)->only(['index', 'create', 'store', 'destroy']);
+});
