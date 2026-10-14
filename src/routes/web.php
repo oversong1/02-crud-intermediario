@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\PedidoController;
 
 // Importa a classe, pra poder escrever so AuthController::class abaixo,
 // em vez do caminho completo App\Http\Controllers\AuthController::class.
@@ -43,4 +44,10 @@ Route::middleware('auth')->group(function () {
 
     // ->only([...]): cria SO essas 4 rotas (o CategoriaController nao tem edit/update/show)
     Route::resource('categorias', CategoriaController::class)->only(['index', 'create', 'store', 'destroy']);
+
+    // GET: so mostra o formulario (sem alterar nada no banco ainda)
+    Route::get('/pedidos/novo', [PedidoController::class, 'create'])->name('pedidos.create');
+
+    // POST: recebe o formulario enviado, e cria o pedido de verdade
+    Route::post('/pedidos', [PedidoController::class, 'store'])->name('pedidos.store');
 });
